@@ -1,0 +1,16 @@
+[all:children]
+ha_app_nodes
+haproxy_node
+
+[haproxy_peer_nodes]
+x.x.x.x
+x.x.x.x
+
+[ha_app_nodes]
+x.x.x.x
+x.x.x.x
+
+[all:vars]
+haproxy_lb_ip=x.x.x.x
+# Enter the ports to be configured below
+ports=80,443

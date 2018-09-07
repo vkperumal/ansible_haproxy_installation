@@ -1,0 +1,12 @@
+---
+
+- name: installing and configuring haproxy
+  hosts: haproxy_peer_nodes
+  gather_facts: yes
+  roles:
+    - "ha_proxy"
+# use the below proxy variable if direct internet connectivity is not available
+#  vars:
+#    proxy_env:
+#      http_proxy: proxy_url
+#      https_proxy: proxy_url

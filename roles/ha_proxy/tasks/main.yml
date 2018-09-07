@@ -1,0 +1,40 @@
+---
+
+- name: install haproxy and keepalive
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - haproxy
+    - keepalived
+
+- name: get the peer haproxy nodes
+  set_fact:
+    ha_peer: "{{ [ item ] }}"
+  with_inventory_hostnames:
+    - haproxy_peer_nodes
+  register: haproxy_peer
+
+- name: copy the haproxy template
+  template:
+    src: templates/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: 0644
+
+- name: copy the keepalive template
+  template:
+    src: templates/keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: start haproxy and keepalive services
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - haproxy
+    - keepalived
